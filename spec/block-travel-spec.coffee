@@ -23,11 +23,11 @@ describe "BlockTravel", ->
     describe "with a down direction", ->
       it "goes to the next empty row", ->
         editor.setCursorBufferPosition([1, 0])
-        blockTravel(editor, "down")
+        blockTravel(editor, "down", false)
         expect(editor.getCursorBufferPosition()).toEqual([3, 0])
 
     describe "with an up direction", ->
       it "goes to the next empty row", ->
         editor.setCursorBufferPosition([3, 0])
-        blockTravel(editor, "up")
+        blockTravel(editor, "up", false)
         expect(editor.getCursorBufferPosition()).toEqual([1, 0])
