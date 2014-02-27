@@ -24,9 +24,6 @@ blockTravel = (editor, direction) ->
       editor.setCursorBufferPosition([row, 0])
       break
 
-pane: ->
-  atom.workspaceView.getActivePaneItem()
-
 module.exports =
   activate: ->
     atom.workspaceView.command 'block-travel:move-up', ->
