@@ -1,0 +1,3 @@
+'.editor':
+  'alt-up': 'block-travel:move-up'
+  'alt-down': 'block-travel:move-down'
