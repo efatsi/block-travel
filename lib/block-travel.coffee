@@ -1,9 +1,11 @@
 blockTravel = (editor, direction, select) ->
-  pos = editor.getCursorBufferPosition()
-  row = pos.row
+  pos       = editor.getCursorBufferPosition()
+  row       = pos.row
+  up        = direction == "up"
+  lineCount = editor.getLineCount()
 
   loop
-    if direction == "up"
+    if up
       row -= 1
     else
       row += 1
@@ -16,7 +18,6 @@ blockTravel = (editor, direction, select) ->
 
       return
 
-    lineCount = editor.getLineCount()
     if row >= lineCount
       if select
         editor.selectDown(lineCount - pos.row)
@@ -27,14 +28,13 @@ blockTravel = (editor, direction, select) ->
 
     range = editor.bufferRangeForBufferRow(row)
     text  = editor.getTextInBufferRange(range)
-    text  = text.replace /^\s+|\s+$/g, ""
 
-    if text == ""
+    if text.replace(/^\s+|\s+$/g, "") is ""
       editor.setCursorBufferPosition([row, 0]) unless select
       break
 
   if select
-    if direction == "up"
+    if up
       editor.selectUp(pos.row - row)
     else
       editor.selectDown(row - pos.row)
