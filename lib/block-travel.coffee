@@ -1,43 +1,40 @@
 blockTravel = (editor, direction, select) ->
-  pos       = editor.getCursorBufferPosition()
-  row       = pos.row
   up        = direction == "up"
   lineCount = editor.getLineCount()
+  row       = editor.getCursorScreenPosition().row
+  count     = 0
 
   loop
-    if up
-      row -= 1
+    count += 1
+
+    if direction == "up"
+      rowIndex = row - count
     else
-      row += 1
+      rowIndex = row + count
 
-    if row < 0
-      if select
-        editor.selectUp(pos.row)
-      else
-        editor.setCursorBufferPosition([0, 0])
+    if rowIndex < 0
+      count = row
+      break
+    else if rowIndex >= lineCount
+      count = lineCount - row
+      break
 
-      return
-
-    if row >= lineCount
-      if select
-        editor.selectDown(lineCount - pos.row)
-      else
-        editor.setCursorBufferPosition([lineCount, 0])
-
-      return
-
-    range = editor.bufferRangeForBufferRow(row)
+    range = editor.bufferRangeForBufferRow(rowIndex)
     text  = editor.getTextInBufferRange(range)
 
     if text.replace(/^\s+|\s+$/g, "") is ""
-      editor.setCursorBufferPosition([row, 0]) unless select
       break
 
   if select
     if up
-      editor.selectUp(pos.row - row)
+      editor.selectUp(count)
     else
-      editor.selectDown(row - pos.row)
+      editor.selectDown(count)
+  else
+    if up
+      editor.moveCursorUp(count)
+    else
+      editor.moveCursorDown(count)
 
 module.exports =
   activate: ->
