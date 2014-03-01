@@ -7,7 +7,7 @@ blockTravel = (editor, direction, select) ->
   loop
     count += 1
 
-    if direction == "up"
+    if up
       rowIndex = row - count
     else
       rowIndex = row + count
@@ -19,10 +19,7 @@ blockTravel = (editor, direction, select) ->
       count = lineCount - row
       break
 
-    range = editor.bufferRangeForBufferRow(rowIndex)
-    text  = editor.getTextInBufferRange(range)
-
-    if text.replace(/^\s+|\s+$/g, "") is ""
+    if editor.lineForBufferRow(rowIndex).replace(/^\s+|\s+$/g, "") is ""
       break
 
   if select
