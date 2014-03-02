@@ -1,7 +1,7 @@
 blockTravel = (editor, direction, select) ->
   up        = direction == "up"
   lineCount = editor.getLineCount()
-  row       = editor.getCursorScreenPosition().row
+  row       = editor.getCursorBufferPosition().row
   count     = 0
 
   loop
