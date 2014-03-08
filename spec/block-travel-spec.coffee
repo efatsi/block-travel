@@ -54,7 +54,6 @@ describe "BlockTravel", ->
           };
         """
         editor.foldBufferRow(5)
-        editor.logScreenLines()
 
       it "properly handles jumping over folded blocks", ->
         editor.setCursorBufferPosition([1, 0])
