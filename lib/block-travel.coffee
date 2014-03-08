@@ -1,6 +1,6 @@
 blockTravel = (editor, direction, select) ->
   up        = direction == "up"
-  lineCount = editor.getLineCount()
+  lineCount = editor.getScreenLineCount()
   row       = editor.getCursorScreenPosition().row
   count     = 0
 
@@ -19,7 +19,7 @@ blockTravel = (editor, direction, select) ->
       count = lineCount - row
       break
 
-    if editor.lineForBufferRow(rowIndex).replace(/^\s+|\s+$/g, "") is ""
+    if editor.lineForScreenRow(rowIndex).text.replace(/^\s+|\s+$/g, "") is ""
       break
 
   if select
