@@ -19,7 +19,7 @@ blockTravel = (editor, direction, select) ->
       count = lineCount - row
       break
 
-    if editor.lineForScreenRow(rowIndex).text.replace(/^\s+|\s+$/g, "") is ""
+    if editor.lineTextForScreenRow(rowIndex).replace(/^\s+|\s+$/g, "") is ""
       break
 
   if select
@@ -29,22 +29,22 @@ blockTravel = (editor, direction, select) ->
       editor.selectDown(count)
   else
     if up
-      editor.moveCursorUp(count)
+      editor.moveUp(count)
     else
-      editor.moveCursorDown(count)
+      editor.moveDown(count)
 
 module.exports =
   activate: ->
-    atom.workspaceView.command 'block-travel:move-up', ->
-      blockTravel(atom.workspaceView.getActivePaneItem(), "up", false)
+    atom.commands.add 'atom-text-editor', 'block-travel:move-up', ->
+      blockTravel(atom.workspace.getActivePaneItem(), "up", false)
 
-    atom.workspaceView.command 'block-travel:move-down', ->
-      blockTravel(atom.workspaceView.getActivePaneItem(), "down", false)
+    atom.commands.add 'atom-text-editor', 'block-travel:move-down', ->
+      blockTravel(atom.workspace.getActivePaneItem(), "down", false)
 
-    atom.workspaceView.command 'block-travel:select-up', ->
-      blockTravel(atom.workspaceView.getActivePaneItem(), "up", true)
+    atom.commands.add 'atom-text-editor', 'block-travel:select-up', ->
+      blockTravel(atom.workspace.getActivePaneItem(), "up", true)
 
-    atom.workspaceView.command 'block-travel:select-down', ->
-      blockTravel(atom.workspaceView.getActivePaneItem(), "down", true)
+    atom.commands.add 'atom-text-editor', 'block-travel:select-down', ->
+      blockTravel(atom.workspace.getActivePaneItem(), "down", true)
 
   blockTravel: blockTravel

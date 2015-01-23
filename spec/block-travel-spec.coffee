@@ -2,15 +2,18 @@
 
 describe "BlockTravel", ->
   describe "blockTravel(editor, direction)", ->
-    [editor, buffer] = []
+    [editor] = []
 
     beforeEach ->
       waitsForPromise ->
         atom.packages.activatePackage('language-javascript')
 
+      waitsForPromise ->
+        atom.workspace.open()
+
       runs ->
-        editor = atom.project.openSync()
-        buffer = editor.getBuffer()
+        editor = atom.workspace.getActiveTextEditor()
+
         editor.setText """
           console.log("Hello World");
 
@@ -18,7 +21,7 @@ describe "BlockTravel", ->
 
           console.log("Hello 'World'");
         """
-        editor.setGrammar(atom.syntax.selectGrammar('test.js'))
+        editor.setGrammar(atom.grammars.selectGrammar('test.js'))
 
     describe "with a down direction", ->
       it "goes to the next empty row", ->
@@ -34,8 +37,10 @@ describe "BlockTravel", ->
 
     describe "with folded rows", ->
       beforeEach ->
-        editor = atom.project.openSync()
-        buffer = editor.getBuffer()
+        waitsForPromise ->
+          atom.workspace.open()
+        
+        editor = atom.workspace.getActiveTextEditor()
         editor.setText """
           var quicksort = function () {
             var sort = function(items) {
@@ -62,4 +67,4 @@ describe "BlockTravel", ->
 
         blockTravel(editor, "down", false)
         expect(editor.getCursorBufferPosition()).toEqual([9, 0])
-        expect(editor.getCursorScreenPosition()).toEqual([7, 0])
+        expect(editor.getCursorScreenPosition()).toEqual([6, 0])
