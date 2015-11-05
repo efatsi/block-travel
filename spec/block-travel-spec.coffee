@@ -39,7 +39,7 @@ describe "BlockTravel", ->
       beforeEach ->
         waitsForPromise ->
           atom.workspace.open()
-        
+
         editor = atom.workspace.getActiveTextEditor()
         editor.setText """
           var quicksort = function () {
@@ -68,3 +68,24 @@ describe "BlockTravel", ->
         blockTravel(editor, "down", false)
         expect(editor.getCursorBufferPosition()).toEqual([9, 0])
         expect(editor.getCursorScreenPosition()).toEqual([6, 0])
+
+    describe "with multiple cursors", ->
+      beforeEach ->
+        waitsForPromise ->
+          atom.workspace.open()
+
+        editor = atom.workspace.getActiveTextEditor()
+        editor.setText """
+          console.log("Hello World");
+          console.log("Hello World");
+          console.log("Hello World");
+
+
+        """
+
+      it "properly moves each cursor independently", ->
+        editor.setCursorBufferPosition([0, 0])
+        editor.addSelectionBelow()
+        blockTravel(editor, "down", false)
+        expect(editor.getCursorBufferPosition()).toEqual([3, 0])
+        expect(editor.getCursors().length).toEqual(1)
