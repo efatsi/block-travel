@@ -89,3 +89,10 @@ describe "BlockTravel", ->
         blockTravel(editor, "down", false)
         expect(editor.getCursors()[0].getBufferRow()).toEqual(1)
         expect(editor.getCursors()[1].getBufferRow()).toEqual(4)
+
+      it "merges cursors that end up in the same place", ->
+        editor.setCursorBufferPosition([2, 0])
+        editor.addCursorAtBufferPosition([3, 0])
+        blockTravel(editor, "down", false)
+        expect(editor.getCursors().length).toEqual(1)
+        expect(editor.getCursorBufferPosition()).toEqual([4, 0])

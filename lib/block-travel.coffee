@@ -2,7 +2,7 @@ blockTravel = (editor, direction, select) ->
   up        = direction == "up"
   lineCount = editor.getScreenLineCount()
 
-  editor.getCursors().forEach (cursor) ->
+  for cursor in editor.getCursors()
     row   = cursor.getBufferRow()
     count = 0
 
@@ -34,6 +34,8 @@ blockTravel = (editor, direction, select) ->
         cursor.moveUp(count)
       else
         cursor.moveDown(count)
+
+  editor.mergeCursors()
 
 module.exports =
   activate: ->
