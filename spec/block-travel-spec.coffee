@@ -77,15 +77,15 @@ describe "BlockTravel", ->
         editor = atom.workspace.getActiveTextEditor()
         editor.setText """
           console.log("Hello World");
-          console.log("Hello World");
-          console.log("Hello World");
 
+          console.log("Hello World");
+          console.log("Hello World");
 
         """
 
       it "properly moves each cursor independently", ->
         editor.setCursorBufferPosition([0, 0])
-        editor.addSelectionBelow()
+        editor.addCursorAtBufferPosition([2, 0])
         blockTravel(editor, "down", false)
-        expect(editor.getCursorBufferPosition()).toEqual([3, 0])
-        expect(editor.getCursors().length).toEqual(1)
+        expect(editor.getCursors()[0].getBufferRow()).toEqual(1)
+        expect(editor.getCursors()[1].getBufferRow()).toEqual(4)
