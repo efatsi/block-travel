@@ -37,9 +37,6 @@ describe "BlockTravel", ->
 
     describe "with folded rows", ->
       beforeEach ->
-        waitsForPromise ->
-          atom.workspace.open()
-
         editor = atom.workspace.getActiveTextEditor()
         editor.setText """
           var quicksort = function () {
@@ -71,9 +68,6 @@ describe "BlockTravel", ->
 
     describe "with multiple cursors", ->
       beforeEach ->
-        waitsForPromise ->
-          atom.workspace.open()
-
         editor = atom.workspace.getActiveTextEditor()
         editor.setText """
           console.log("Hello World");
