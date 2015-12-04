@@ -3,7 +3,7 @@ blockTravel = (editor, direction, select) ->
   lineCount = editor.getScreenLineCount()
 
   for cursor in editor.getCursors()
-    row   = cursor.getBufferRow()
+    row   = cursor.getScreenRow()
     count = 0
 
     loop

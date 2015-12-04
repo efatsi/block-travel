@@ -69,6 +69,35 @@ describe "BlockTravel", ->
         expect(editor.getCursorBufferPosition()).toEqual([9, 0])
         expect(editor.getCursorScreenPosition()).toEqual([6, 0])
 
+    describe "with soft wrapped rows", ->
+      beforeEach ->
+        editor = atom.workspace.getActiveTextEditor()
+        editor.setSoftWrapped(true)
+        editor.setEditorWidthInChars(80)
+        editor.setDefaultCharWidth(8)
+        editor.setText """
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        """
+
+      it "properly handles jumping over soft wrapped blocks", ->
+        editor.setCursorBufferPosition([0, 0])
+        blockTravel(editor, "down", false)
+        expect(editor.getCursorBufferPosition()).toEqual([1, 0])
+
+        blockTravel(editor, "down", false)
+        expect(editor.getCursorBufferPosition()).toEqual([3, 0])
+        expect(editor.getCursorScreenPosition()).toEqual([7, 0])
+
+        blockTravel(editor, "up", false)
+        expect(editor.getCursorBufferPosition()).toEqual([1, 0])
+
+        blockTravel(editor, "up", false)
+        expect(editor.getCursorBufferPosition().row).toEqual(0)
+
     describe "with multiple cursors", ->
       beforeEach ->
         waitsForPromise ->
