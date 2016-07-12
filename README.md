@@ -1,11 +1,5 @@
 # Block travel package
 
-## NO LONGER MAINTAINED
-
-Unfortunately this package is no longer maintained. Please
-contact me if you'd like to take over maintenance or can
-suggest an alternative.
-
 Block travel uses empty lines to travel quickly
 through blocks of code.
 
