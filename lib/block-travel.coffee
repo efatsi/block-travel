@@ -1,4 +1,5 @@
 blockTravel = (editor, direction, select) ->
+  invisibles = atom.config.get('editor.invisibles')
   up        = direction == "up"
   lineCount = editor.getScreenLineCount()
 
@@ -21,7 +22,12 @@ blockTravel = (editor, direction, select) ->
         count = lineCount - row
         break
 
-      if editor.lineTextForScreenRow(rowIndex).replace(/^\s+|\s+$/g, "") is ""
+      if editor.lineTextForScreenRow(rowIndex)
+          .replace(new RegExp(invisibles.eol, 'g'), '\n')
+          .replace(new RegExp(invisibles.space, 'g'), ' ')
+          .replace(new RegExp(invisibles.tab, 'g'), '\t')
+          .replace(new RegExp(invisibles.cr, 'g'), '\r')
+          .trim() is ""
         break
 
     if select
