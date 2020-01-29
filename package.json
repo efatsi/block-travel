@@ -1,6 +1,6 @@
 {
   "name": "block-travel",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "main": "./lib/block-travel",
   "description": "Quickly travel up/down between blocks of code",
   "repository": "https://github.com/efatsi/block-travel",
