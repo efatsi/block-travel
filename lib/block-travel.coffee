@@ -6,6 +6,7 @@ blockTravel = (editor, direction, select) ->
   for cursor in editor.getCursors()
     row   = cursor.getScreenRow()
     count = 0
+    hitContent = false
 
     loop
       count += 1
@@ -28,7 +29,10 @@ blockTravel = (editor, direction, select) ->
           .replace(new RegExp(invisibles.tab, 'g'), '\t')
           .replace(new RegExp(invisibles.cr, 'g'), '\r')
           .trim() is ""
-        break
+        if hitContent
+          break
+      else
+        hitContent = true
 
     if select
       if up
