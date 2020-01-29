@@ -3,7 +3,7 @@
   "version": "1.0.5",
   "main": "./lib/block-travel",
   "description": "Quickly travel up/down between blocks of code",
-  "repository": "https://github.com/leejarvis/block-travel",
+  "repository": "https://github.com/efatsi/block-travel",
   "license": "MIT",
   "engines": {
     "atom": ">=0.174.0 <2.0.0"
