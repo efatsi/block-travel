@@ -1,12 +1,21 @@
+invisibles = atom.config.get('editor.invisibles')
+
+blankLine = (editor, rowIndex) ->
+  return editor.lineTextForScreenRow(rowIndex)
+    .replace(new RegExp(invisibles.eol, 'g'), '\n')
+    .replace(new RegExp(invisibles.space, 'g'), ' ')
+    .replace(new RegExp(invisibles.tab, 'g'), '\t')
+    .replace(new RegExp(invisibles.cr, 'g'), '\r')
+    .trim() is ""
+
 blockTravel = (editor, direction, select) ->
-  invisibles = atom.config.get('editor.invisibles')
   up        = direction == "up"
   lineCount = editor.getScreenLineCount()
 
   for cursor in editor.getCursors()
     row   = cursor.getScreenRow()
     count = 0
-    hitContent = false
+    hitContent = !blankLine(editor, row)
 
     loop
       count += 1
@@ -23,12 +32,7 @@ blockTravel = (editor, direction, select) ->
         count = lineCount - row
         break
 
-      if editor.lineTextForScreenRow(rowIndex)
-          .replace(new RegExp(invisibles.eol, 'g'), '\n')
-          .replace(new RegExp(invisibles.space, 'g'), ' ')
-          .replace(new RegExp(invisibles.tab, 'g'), '\t')
-          .replace(new RegExp(invisibles.cr, 'g'), '\r')
-          .trim() is ""
+      if blankLine(editor, rowIndex)
         if hitContent
           break
       else
